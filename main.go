@@ -1,12 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/s-ir/merpel/router"
 )
 
 func main() {
+	r := router.RouterInit()
+	log.Fatal(http.ListenAndServe(":19113", r))
 
-	// Merple : A simple file storage database
-
-	fmt.Println("Merple : A simple file storage database")
 }
