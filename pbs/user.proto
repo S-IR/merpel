@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+option  go_package = "/pbs";
+
+message User {
+  string id = 1;
+}

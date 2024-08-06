@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-option  go_package = "/pbs";
-message  PostFileRequest {
-  string path = 1;
-  uint32 permission = 2;
-  
-}

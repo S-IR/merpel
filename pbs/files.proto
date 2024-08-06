@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option  go_package = "/pbs";
+message  PostFileRequest {
+  string path = 1;
+  uint32 permission = 2;
+  bytes encryption_key = 3;
+  
+}
+message File{
+  string path = 1;
+  uint32 permission = 2;
+  uint64 size = 3;
+  bytes Hash = 4;
+}

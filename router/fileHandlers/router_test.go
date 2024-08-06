@@ -1,4 +1,4 @@
-package router
+package fileHandlers
 
 import (
 	"bytes"
@@ -9,7 +9,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/s-ir/merpel/db"
 	"github.com/s-ir/merpel/pbs"
+	"github.com/s-ir/merpel/router/auth"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -50,11 +52,18 @@ func TestUploadHandler(t *testing.T) {
 
 	writer.Close()
 	req := httptest.NewRequest(http.MethodPost, "/upload", body)
+	_, err = db.CreateAuthMockupRequest(req)
+	if err != nil {
+		t.Fatalf("Error creating mockup request: %v", err)
+	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 
 	recorder := httptest.NewRecorder()
 	// Call the handler
-	UploadHandler(recorder, req)
+	mw := auth.Middleware(http.HandlerFunc(UploadHandler))
+
+	mw.ServeHTTP(recorder, req)
+	// UploadHandler(recorder, req)
 
 	resp := recorder.Result()
 	if resp.StatusCode != http.StatusOK {
